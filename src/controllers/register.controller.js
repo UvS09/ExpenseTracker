@@ -54,6 +54,7 @@ const registerController = async (req, res) => {
         // WHY: Uses bcrypt's secure one-way hashing to protect user passwords
         // WHY: Salt generation adds randomness to prevent rainbow table attacks
         // WHY: Even database breaches won't expose actual user passwords
+        // In the MongoDB, hashed password is stored instead of plaintext, you can see it in the database
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 

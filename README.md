@@ -65,7 +65,7 @@ npm install
 Create a `.env` file in the root directory with the following variables:
 ```
 PORT=3000                                     # The port your server will run on
-MONGODB_URI=mongodb://localhost:27017/your-database-name  # Connection to MongoDB
+MONGODB_URI=<your connection_string>  # Connection to MongoDB
 ```
 
 4. Start the development server
