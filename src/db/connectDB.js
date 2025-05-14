@@ -13,8 +13,8 @@ dotenv.config();
  * 
  * NOTE: In production environments, additional connection options should be considered
  * such as connection pooling, retry mechanisms, and appropriate timeout settings to ensure
- * robust database connectivity and optimal performance under various network conditions.
- * 
+ * database connectivity and optimal performance under various network conditions.
+ *
  */
 const connectDB = async () => {
     try{

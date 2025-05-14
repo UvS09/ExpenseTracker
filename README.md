@@ -265,3 +265,169 @@ To run in development mode with nodemon (automatically restarts when code change
 ```bash
 npm run dev
 ```
+
+
+
+## Core Assignment: Simple Expense Tracker
+
+### Assignment Overview
+
+For this assignment, you will extend this authentication backend to create a basic expense tracker application. This will help you learn how to build upon an existing codebase by adding new models, controllers, and routes.
+
+### Project Requirements
+
+Building on the existing authentication system, implement the following features:
+
+1. **Expense Management**
+   - Create new expenses with amount, description, category, and date
+   - View all expenses for the logged-in user
+   - Update existing expenses
+
+### Files You Need to Create
+
+#### 1. Create the Expense Model
+**File path:** `src/models/Expense.js`
+
+Create an Expense model that includes:
+- userId (to connect expenses to a specific user)
+- amount (the cost of the expense)
+- description (what the expense was for)
+- category (like "Food", "Transportation", etc.)
+- date (when the expense occurred)
+
+#### 2. Create the Expense Controller
+**File path:** `src/controllers/expense.controller.js`
+
+Create an expense controller with these functions:
+- `createExpense`: Add a new expense to the database
+- `getExpenses`: Retrieve all expenses for a specific user
+- `updateExpense`: Update an existing expense by its ID
+
+#### 3. Create the Expense Routes
+**File path:** `src/routes/expense.route.js`
+
+Create routes that define these API endpoints:
+- `POST /api/expense/create`: Create a new expense
+- `GET /api/expense/all`: Fetch all expenses for a user
+- `PUT /api/expense/update/:id`: Update an expense by ID
+
+#### 4. Update the Main Entry File
+**File to modify:** `index.js`
+
+Add your new expense routes to the main application by importing your expense router and adding the appropriate `app.use()` statement.
+
+### Final Project Structure
+
+When you're done, your project structure should look like this:
+
+
+```
+/
+├── index.js                 # Application entry point - starts the server
+├── src/                     # Source code directory
+│   ├── app.js               # Express application setup - configures the web server
+│   ├── routes/              # API route definitions - maps URLs to controllers
+│   │   ├── auth.route.js    # Authentication routes (login, register, logout)
+│   │   └── healthcheck.route.js # Health check routes for monitoring
+│   │   ├── expense.route.js  # Expense management routes (create, get, update)
+│   ├── controllers/         # Request handlers - business logic for each route
+│   │   ├── login.controller.js     # Handles user login
+│   │   ├── logout.controller.js    # Handles user logout
+│   │   ├── register.controller.js  # Handles user registration
+│   │   └── healthcheck.controller.js # Handles health checks
+│   │   ├── expense.controller.js    # Handles expense management
+│   ├── models/              # Database schemas - defines data structure
+│   │   └── User.js          # User model - defines user properties
+│   │   └── Expense.js       # Expense model - defines expense properties
+│   └── db/
+│       └── connectDB.js     # Database connection - connects to MongoDB
+└── .env                     # Environment variables (not in repository)
+```
+
+
+## Alternative Assignment: Simple Learning Management System (LMS)
+
+### Assignment Overview
+
+Instead of the expense tracker, you can choose to build a simple Learning Management System (LMS) where teachers can assign grades to students, and students can view their grades.
+
+### Project Requirements
+
+Building on the existing authentication system, implement the following features:
+
+1. **Enhanced User Model with Roles**
+   - Add a "role" field to the existing User model (values: "teacher" or "student")
+   - For teachers: Add a "coursesTaught" array with course IDs
+   - For students: Add an "enrolledCourses" array with objects containing courseId and grade
+
+2. **Course Management**
+   - Create a simple Course model
+   - Students can view their grades for enrolled courses
+   - Teachers can assign grades to students in their courses
+
+### Files You Need to Create
+
+#### 1. Update the User Model
+**File to modify:** `src/models/User.js`
+
+Add to the existing User model:
+- role (string: "teacher" or "student")
+- coursesTaught (array of course IDs, for teachers only)
+- enrolledCourses (array of objects with courseId and grade, for students only)
+
+#### 2. Create the Course Model
+**File path:** `src/models/Course.js`
+
+Create a Course model that includes:
+- courseName (name of the course)
+- courseCode (unique identifier for the course)
+- teacherId (reference to the teacher user)
+- description (brief description of the course)
+
+#### 3. Create LMS Controller
+**File path:** `src/controllers/lms.controller.js`
+
+Create an LMS controller with these functions:
+- 'getStudents': Get all students enrolled in a course
+- 'updateStudentGrade': Assign a grade to a student in a course
+- 'getCourses' : Get all courses for students
+
+#### 4. Create LMS Routes
+**File path:** `src/routes/lms.route.js`
+
+Create routes that define these API endpoints:
+- `GET /api/lms/courses`: Get all courses for a student
+- `POST /api/lms/assignGrade`: Assign a grade to a student in a course
+- `GET /api/lms/students`: Get all students enrolled in a course
+
+#### 5. Update the Main Entry File
+**File to modify:** `index.js`
+
+Add your new LMS routes to the main application.
+
+### Final Project Structure
+
+When you're done, your project structure should look like this:
+
+```
+/
+├── index.js                 # Application entry point - starts the server
+├── src/                     # Source code directory
+│   ├── app.js               # Express application setup - configures the web server
+│   ├── routes/              # API route definitions - maps URLs to controllers
+│   │   ├── auth.route.js    # Authentication routes (login, register, logout)
+│   │   └── healthcheck.route.js # Health check routes for monitoring
+│   │   ├── lms.route.js      # LMS routes (courses, grades)
+│   ├── controllers/         # Request handlers - business logic for each route
+│   │   ├── login.controller.js     # Handles user login
+│   │   ├── logout.controller.js    # Handles user logout
+│   │   ├── register.controller.js  # Handles user registration
+│   │   └── healthcheck.controller.js # Handles health checks
+│   │   ├── lms.controller.js        # Handles LMS functionality (courses, grades)
+│   ├── models/              # Database schemas - defines data structure
+│   │   ├── User.js          # User model - defines user properties
+│   │   └── Course.js        # Course model - defines course properties
+│   └── db/
+│       └── connectDB.js     # Database connection - connects to MongoDB
+└── .env                     # Environment variables (not in repository)
+```
