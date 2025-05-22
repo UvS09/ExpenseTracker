@@ -309,7 +309,7 @@ Create an expense controller with these functions:
 Create routes that define these API endpoints:
 - `POST /api/expense/create`: Create a new expense
 - `GET /api/expense/all`: Fetch all expenses for a user
-- `PUT /api/expense/update/:id`: Update an expense by ID
+- `PUT /api/expense/update`: Update an expense by ID
 
 #### 4. Update the Main Entry File
 **File to modify:** `index.js`
