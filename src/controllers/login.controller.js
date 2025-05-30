@@ -1,22 +1,11 @@
 const { User } = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const dotenv = require('dotenv');
+dotenv.config(); // Load environment variables from .env file
 
-/**
- * Login Controller - Authenticates users and manages login state
- * 
- * This controller handles user authentication by:
- * 1. Validating user credentials (userId and password)
- * 2. Checking if the user exists in the database
- * 3. Verifying if the user is already logged in on another device
- * 4. Comparing passwords using secure bcrypt hashing
- * 5. Managing the login state (isLoggedIn flag)
- * 6. Returning appropriate responses based on authentication results
- * 
- * NOTE: In production-level applications, JWT (JSON Web Tokens) is typically used for session management
- * instead of the isLoggedIn flag approach. JWT provides stateless authentication, allowing secure 
- * transmission of user identity between client and server, and supports features like token expiration
- * and role-based access control.
- * 
+/*
+ * Login Controller - Authenticates users and manages authentication via JWT
  */
 const loginController = async (req, res) => {
     
@@ -55,22 +44,9 @@ const loginController = async (req, res) => {
             });
         }
     
-        // Check if user is already logged in elsewhere
-        // WHY: Prevents concurrent logins from multiple devices (if that's a requirement)
-        // WHY: Helps with session management and security by enforcing single-session policy
-        if(existingUser.isLoggedIn === true){
-            return res.status(400).json({
-                status: 400,
-                message: "ID already logged in from another device",
-                data: [],
-                error: "Already logged in"
-            });
-        }
-        
         // Password verification using bcrypt's secure comparison
         // WHY: Uses bcrypt.compare() which is time-constant (prevents timing attacks)
         // WHY: Never compares passwords in plaintext - always uses hashed comparison
-        // WHY: Passwords are stored as one-way hashes, not retrievable plaintext
         const isPasswordValid = await bcrypt.compare(password, existingUser.password);
         
         // Invalid password handling
@@ -85,21 +61,27 @@ const loginController = async (req, res) => {
             });
         }
     
-        // Update user's login status
-        // WHY: Marks user as logged in to enforce single-session policy
-        // WHY: Persists login state in database for session tracking
-        existingUser.isLoggedIn = true;
-        await existingUser.save();
+        // Generate JWT token
+        // WHY: Creates a secure, time-limited token containing user information
+        // WHY: Uses environment variable for secret key to enhance security
+        const token = jwt.sign(
+            { 
+                userId: existingUser.userId,
+                id: existingUser._id 
+            },
+            process.env.JWT_SECRET || 'your-secret-key', // Should use environment variable
+            { expiresIn: '2d' } // Token expires in 2 days
+        );
     
-        // Successful authentication response
+        // Successful authentication response with JWT token
+        // WHY: Returns the token for client to store and use in subsequent requests
         // WHY: Returns minimal user data to avoid exposing sensitive information
-        // WHY: Confirms login status to client for UI state management
         return res.status(200).json({
             status: 200,
             message: "Login successful",
             data: {
                 userId: existingUser.userId,
-                isLoggedIn: existingUser.isLoggedIn
+                token: token
             },
             error: null
         });
@@ -107,7 +89,6 @@ const loginController = async (req, res) => {
         // Error handling for unexpected exceptions
         // WHY: Logs full error details server-side for debugging
         // WHY: Returns generic error message to client to avoid exposing implementation details
-        // WHY: Includes specific error message in controlled environment for easier debugging
         console.error("Error : ", error);
         return res.status(500).json({
             status: 500,

@@ -1,20 +1,8 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../models/User");
 
-/**
+/*
  * Register Controller - Creates new user accounts in the system
- * 
- * This controller handles user registration by:
- * 1. Validating required user information (userId and password)
- * 2. Checking if the userId is already taken
- * 3. Securely hashing passwords using bcrypt before storage
- * 4. Creating and persisting new user records
- * 5. Returning appropriate responses based on registration results
- * 
- * NOTE: This implementation follows security best practices by never storing
- * plaintext passwords and using industry-standard hashing algorithms.
- * In production systems, additional validation like password strength requirements,
- * email verification, and CAPTCHA might be implemented.
  */
 const registerController = async (req, res) => {
     try {
@@ -41,10 +29,10 @@ const registerController = async (req, res) => {
         // WHY: Provides clear feedback when attempting to create duplicate accounts
         // WHY: Stops the registration process early if userId is already taken
         if(existingUser){
-            console.log("User already exists");
+            console.log("User already exists with the");
             return res.status(400).json({
                 status: 400,
-                message: "User already exists",
+                message: "User already exists with same username",
                 data: [],
                 error: "User already exists"
             });
@@ -64,7 +52,6 @@ const registerController = async (req, res) => {
         const newUser = new User({
             userId,
             password: hashedPassword,
-            isLoggedIn: false
         });
 
         // Save user to database
@@ -79,7 +66,6 @@ const registerController = async (req, res) => {
             message: "User registered successfully",
             data: {
                 userId: newUser.userId,
-                isLoggedIn: newUser.isLoggedIn
             },
             error: null
         });

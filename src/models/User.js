@@ -34,14 +34,6 @@ const userSchema = new mongoose.Schema(
             // WHY: Required field as authentication depends on it
             // WHY: No maximum length constraint to accommodate various hash algorithms
         },
-        isLoggedIn : {
-            type : Boolean,
-            required : true,
-            default : false
-            // WHY: Tracks user's current login state
-            // WHY: Default is false (logged out) for security reasons
-            // WHY: Enables single-session enforcement in the authentication flow
-        }
     }
 )
 
