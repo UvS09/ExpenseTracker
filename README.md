@@ -16,7 +16,6 @@ A backend (or "server-side") application handles tasks like:
 
 - User registration with unique user IDs
 - Secure login and authentication
-- Logout functionality
 - Health check endpoint for monitoring
 - Password hashing for security
 
@@ -70,11 +69,10 @@ This will start the server using nodemon, which automatically restarts the serve
 ├── src/                     # Source code directory
 │   ├── app.js               # Express setup - configures the web server
 │   ├── routes/              # API route definitions - maps URLs to controllers
-│   │   ├── auth.route.js    # Authentication routes (login, register, logout)
+│   │   ├── auth.route.js    # Authentication routes (login, register)
 │   │   └── healthcheck.route.js # Health check routes for monitoring
 │   ├── controllers/         # Request handlers - business logic for each route
 │   │   ├── login.controller.js     # Handles user login
-│   │   ├── logout.controller.js    # Handles user logout
 │   │   ├── register.controller.js  # Handles user registration
 │   │   └── healthcheck.controller.js # Handles health checks
 │   ├── models/              # Database schemas - defines data structure
@@ -100,7 +98,7 @@ This will start the server using nodemon, which automatically restarts the serve
 
 This API uses these HTTP methods:
 - **GET**: Retrieve data (like health check)
-- **POST**: Create or update data (like register, login, logout)
+- **POST**: Create or update data (like register, login)
 
 HTTP status codes in responses:
 - **200**: Success (OK)
@@ -210,12 +208,11 @@ When you're done, your project structure should look like this:
 ├── src/                     # Source code directory
 │   ├── app.js               # Express application setup - configures the web server
 │   ├── routes/              # API route definitions - maps URLs to controllers
-│   │   ├── auth.route.js    # Authentication routes (login, register, logout)
+│   │   ├── auth.route.js    # Authentication routes (login, register)
 │   │   ├── healthcheck.route.js # Health check routes for monitoring
 │   │   └── task.route.js    # Task management routes (create, get, update)
 │   ├── controllers/         # Request handlers - business logic for each route
 │   │   ├── login.controller.js     # Handles user login
-│   │   ├── logout.controller.js    # Handles user logout
 │   │   ├── register.controller.js  # Handles user registration
 │   │   ├── healthcheck.controller.js # Handles health checks
 │   │   └── task.controller.js      # Handles task management
@@ -288,12 +285,11 @@ When you're done, your project structure should look like this:
 ├── src/                     # Source code directory
 │   ├── app.js               # Express application setup - configures the web server
 │   ├── routes/              # API route definitions - maps URLs to controllers
-│   │   ├── auth.route.js    # Authentication routes (login, register, logout)
+│   │   ├── auth.route.js    # Authentication routes (login, register)
 │   │   └── healthcheck.route.js # Health check routes for monitoring
 │   │   ├── expense.route.js  # Expense management routes (create, get, update)
 │   ├── controllers/         # Request handlers - business logic for each route
 │   │   ├── login.controller.js     # Handles user login
-│   │   ├── logout.controller.js    # Handles user logout
 │   │   ├── register.controller.js  # Handles user registration
 │   │   └── healthcheck.controller.js # Handles health checks
 │   │   ├── expense.controller.js    # Handles expense management
