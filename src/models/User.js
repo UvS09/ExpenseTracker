@@ -1,19 +1,13 @@
 const { default: mongoose, mongo } = require("mongoose");
 
 /**
- * User Model - Defines the schema for user authentication data
+ * User Model - Authentication Schema
  * 
- * This schema implements core user authentication with:
- * 1. A unique userId for identification
- * 2. A password field for storing hashed credentials
- * 3. A login state flag to track active sessions
+ * Core fields for authentication:
+ * - userId: Unique identifier
+ * - password: For storing hashed credentials
  * 
- * NOTE: For production applications, consider additional user fields like:
- * - email (for communications and alternate login)
- * - createdAt/updatedAt timestamps
- * - roles/permissions for access control
- * - personalInfo (name, contact details, etc.)
- * 
+ * For production: Consider adding email, timestamps, roles, and personal info
  */
 
 const userSchema = new mongoose.Schema(
@@ -23,22 +17,16 @@ const userSchema = new mongoose.Schema(
             required: true,
             unique: true,
             trim: true
-            // WHY: Used as the primary identifier for users during login
-            // WHY: Enforced as unique to prevent duplicate accounts
-            // WHY: Trimmed to avoid whitespace-related login issues
+            // Primary identifier, unique to prevent duplicates, trimmed for consistency
         },
         password : {
             type : String,
             required : true,
-            // WHY: Stores hashed password, never raw credentials
-            // WHY: Required field as authentication depends on it
-            // WHY: No maximum length constraint to accommodate various hash algorithms
+            // Stores hashed passwords only, no length constraint for hash flexibility
         },
     }
 )
 
-// Creates the model from schema and exports it
-// WHY: Mongoose models provide the interface for database operations
-// WHY: Exported as a named export for explicit imports in controllers
+// Create and export model for database operations
 const User = mongoose.model("User", userSchema)
 module.exports = { User };

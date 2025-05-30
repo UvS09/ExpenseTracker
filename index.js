@@ -4,68 +4,39 @@ const mongoose = require('mongoose');         // Import Mongoose - a library to 
 const express = require('express');           // Import Express - a web framework for Node.js
 
 /**
- * Environment Configuration Module - Securely loads and manages configuration settings
+ * Environment Configuration
+ * - Security: Hides sensitive credentials (DB passwords, API keys)
+ * - Enables different configs across environments
+ * - Separates configuration from code
  * 
- * This section handles environment variables by:
- * 1. Loading the dotenv package to read variables from .env files
- * 2. Explaining the security importance of environment variable handling
- * 3. Setting up proper configuration isolation from application code
- * 
- * WHY HIDE ENVIRONMENT VARIABLES:
- * - Security: Prevents exposing sensitive credentials (DB passwords, API keys, JWT secrets)
- * - Environment flexibility: Allows different settings across dev/staging/production
- * - Separates configuration from code following best practices and protecting against data breaches
- * 
- * NOTE: ALWAYS include .env files in .gitignore to prevent committing sensitive information to version control
+ * Note: Always include .env in .gitignore
  */
-const dotenv = require('dotenv');             // Import dotenv - to load environment variables from .env file
-dotenv.config();                              // Load environment variables from .env file
+const dotenv = require('dotenv');             // Load environment variables package
+dotenv.config();                              // Initialize environment variables
 
-/**
- * Application Dependencies and Configuration
- * 
- * This section:
- * 1. Imports essential modules for database connectivity
- * 2. Sets up route handlers for different API endpoints
- * 3. Configures application runtime parameters
- * 
- * WHY: Module separation provides better code organization, maintainability, and testing
- * WHY: Using environment variables for configuration allows deployment flexibility
- * WHY: Route modularization enables cleaner code structure and easier maintenance
- */
+// Importing necessary modules and initializing the Express application
+// Importing the database connection function and routes
+
 const connectDB = require('./src/db/connectDB'); // Import database connection function
 const { HealthCheckRoute } = require('./src/routes/healthcheck.route'); // Import health check routes
 const { AuthRouter } = require('./src/routes/auth.route'); // Import authentication routes
 const PORT = process.env.PORT || 3000;        // Get the port from environment variables or use 3000 as default
 
 /**
- * Express Middleware Configuration
- * 
- * This section configures the request processing pipeline by:
- * 1. Setting up body parsers for different content types
- * 2. Configuring static file serving for client-side assets
- * 3. Establishing the processing sequence for incoming requests
- * 
- * WHY: Middleware functions process requests before they reach route handlers
- * WHY: They provide critical functionality like parsing request bodies, handling sessions, and more
- * WHY: The middleware execution order matters - each processes the request sequentially
- * WHY: Proper middleware configuration ensures the application can correctly handle different request types
+ * Express Middleware Setup
+ * - Configures request parsers for JSON and form data
+ * - Sets up static file serving
+ * - Order matters: middleware executes sequentially
  */
 app.use(express.json());                      // Enable parsing JSON bodies in requests
 app.use(express.urlencoded({ extended: true })); // Enable parsing URL-encoded bodies (form data)
 app.use(express.static('public'));            // Serve static files from the 'public' directory
 
 /**
- * API Routes Configuration
- * 
- * This section:
- * 1. Maps URL paths to their respective route handlers
- * 2. Establishes the API's URL structure and hierarchy
- * 3. Directs requests to appropriate controller functions
- * 
- * WHY: Route modularization improves code organization and maintainability
- * WHY: Path prefixing (like '/api') creates logical API versioning and namespacing
- * WHY: Separating routes by resource type follows REST principles and API best practices
+ * API Routes
+ * - Maps URLs to route handlers
+ * - Organizes endpoints by resource type
+ * - Follows REST principles for API structure
  */
 app.use('/api', HealthCheckRoute);            // Any request to '/api' will be handled by HealthCheckRoute
 app.use('/api/user', AuthRouter);             // Any request to '/api/user' will be handled by AuthRouter

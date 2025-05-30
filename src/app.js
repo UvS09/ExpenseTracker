@@ -1,39 +1,24 @@
 /**
- * Express Application Configuration Module
+ * Express Application Configuration
  * 
- * This module initializes and configures the Express application by:
- * 1. Importing necessary dependencies
- * 2. Creating the core Express application instance
- * 3. Exporting the configured app for use in other modules
+ * Initializes and configures Express app with:
+ * - Core dependencies
+ * - Application instance
  * 
- * NOTE: This follows the modular design pattern where the app configuration is 
- * separated from server initialization, promoting better code organization,
- * testability, and flexibility across different environments.
- * 
+ * Uses modular design to separate app config from server startup
+ * for improved organization and testability.
  */
 
-// Import required packages
-// WHY: Express provides the foundation for building web applications and APIs
-// WHY: It simplifies routing, middleware implementation, and HTTP interactions
-const express = require('express');  // Import Express - a web framework for Node.js
+// Import Express framework
+const express = require('express');
 
-// Create Express application instance
-// WHY: Creates the central app object that will be configured with middleware and routes
-// WHY: Serves as the foundation for all HTTP request handling in the application
-// WHY: Follows the factory pattern where express() creates a fully configurable application object
+// Create app instance
+// Central object for HTTP handling using factory pattern
 const app = express();
 
-// Additional configuration would typically be added here:
-// - Body parsers for handling request data
-// - CORS configuration for cross-origin requests
-// - Authentication middleware
-// - Route registration
-// - Error handlers
-// - Other application-wide middleware
+// Potential additional configuration:
+// - Body parsers, CORS, Authentication
+// - Routes, Error handlers, Middleware
 
-// Export the configured Express application
-// WHY: Enables modular architecture by separating app creation from server startup
-// WHY: Facilitates testing by allowing routes to be tested without starting a server
-// WHY: Supports different entry points for various environments (dev, test, prod)
-// WHY: Follows the dependency injection pattern for better testability
+// Export app for modular architecture and testability
 module.exports = app;

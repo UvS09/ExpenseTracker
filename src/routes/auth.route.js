@@ -1,14 +1,5 @@
-/**
- * Authentication Router
- * 
- * Manages authentication endpoints including login, registration, and logout.
- * Follows RESTful conventions with appropriate HTTP methods.
- * 
- * Security considerations:
- * - Production implementations should include rate limiting
- * - Input validation should be applied
- * - CSRF protection is recommended
- */
+// This file defines the authentication routes for user login and registration
+// Import necessary modules
 
 // Import authentication controllers
 const { loginController } = require('../controllers/login.controller');
