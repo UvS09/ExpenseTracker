@@ -1,8 +1,6 @@
 # Backend Module
 
-## Overview
 
-This backend module provides authentication services including user registration, login, and logout functionality. It's built using Node.js, Express, and MongoDB, following MVC architecture principles.
 
 ## What is a Backend?
 
@@ -12,14 +10,7 @@ A backend (or "server-side") application handles tasks like:
 - Business logic processing
 - API endpoints that client applications can communicate with
 
-This project uses:
-- **Node.js**: A JavaScript runtime that lets you run JavaScript on a server
-- **Express**: A web framework for Node.js that makes it easy to create web servers and APIs
-- **MongoDB**: A NoSQL database that stores data in flexible JSON-like documents
-- **MVC Architecture**: Model-View-Controller pattern that separates application logic:
-  - **Models**: Define data structure (User.js)
-  - **Views**: Handle presentation (not applicable in pure API backends)
-  - **Controllers**: Process requests and send responses (login.controller.js, etc.)
+
 
 ## Features
 
@@ -31,7 +22,7 @@ This project uses:
 
 ## Getting Started with Node.js
 
-If you're new to Node.js development, follow these steps:
+If you're new to Node.js development, follow these steps(If you have installed firebase, you can skip this section as firebase requires Node.js):
 
 1. **Install Node.js**: Download and install from [nodejs.org](https://nodejs.org/)
 2. **Verify installation**:
@@ -50,11 +41,7 @@ If you're new to Node.js development, follow these steps:
 
 ### Setup Steps
 
-1. Clone the repository
-```bash
-git clone https://github.com/arjav1528/Module-4.git
-cd Backend\ Module
-```
+1. Download the zip file from the repository and extract it to your desired location. Open it in VS Code or your preferred code editor.
 
 2. Install dependencies
 ```bash
@@ -66,120 +53,14 @@ Create a `.env` file in the root directory with the following variables:
 ```
 PORT=3000                                     # The port your server will run on
 MONGODB_URI=<your connection_string>  # Connection to MongoDB
+JWT_SECRET=<some_random_string>        # Secret key for JWT authentication
 ```
 
 4. Start the development server
 ```bash
 npm run dev
 ```
-
-## API Documentation
-
-An API (Application Programming Interface) is how different software systems communicate. This backend provides several API endpoints that accept HTTP requests and return JSON responses.
-
-### Authentication Endpoints
-
-#### Register a New User
-```
-POST /api/user/register
-```
-
-**What this does**: Creates a new user account in the database.
-
-**Request Body:**
-```json
-{
-  "userId": "username",        // The unique identifier for the user
-  "password": "user_password"  // The user's password (will be securely hashed)
-}
-```
-
-**Response:**
-```json
-{
-  "status": 201,               // 201 means "Created" - success!
-  "message": "User registered successfully",
-  "data": {
-    "userId": "username",      // The registered username
-    "isLoggedIn": false        // Initially not logged in
-  },
-  "error": null                // No error when successful
-}
-```
-
-#### Login
-```
-POST /api/user/login
-```
-
-**What this does**: Authenticates a user and marks them as logged in.
-
-**Request Body:**
-```json
-{
-  "userId": "username",        // The user's identifier
-  "password": "user_password"  // The user's password
-}
-```
-
-**Response:**
-```json
-{
-  "status": 200,               // 200 means "OK" - success!
-  "message": "Login successful",
-  "data": {
-    "userId": "username",
-    "isLoggedIn": true         // Now marked as logged in
-  },
-  "error": null
-}
-```
-
-#### Logout
-```
-POST /api/user/logout
-```
-
-**What this does**: Marks a user as logged out in the system.
-
-**Request Body:**
-```json
-{
-  "userId": "username"         // Only need the userId to logout
-}
-```
-
-**Response:**
-```json
-{
-  "status": 200,
-  "message": "Logout successful",
-  "data": {
-    "userId": "username",
-    "isLoggedIn": false        // Now marked as logged out
-  },
-  "error": null
-}
-```
-
-### System Endpoints
-
-#### Health Check
-```
-GET /api/healthCheck
-```
-
-**What this does**: Checks if the server is running properly. Used for monitoring.
-
-**Response:**
-```json
-{
-  "status": 200,               // 200 means "OK"
-  "message": "Server is running",
-  "data": [],
-  "error": null
-}
-```
+This will start the server using nodemon, which automatically restarts the server when you make changes to the code.
 
 ## Project Structure Explained
 
@@ -187,7 +68,7 @@ GET /api/healthCheck
 /
 ├── index.js                 # Application entry point - starts the server
 ├── src/                     # Source code directory
-│   ├── app.js               # Express application setup - configures the web server
+│   ├── app.js               # Express setup - configures the web server
 │   ├── routes/              # API route definitions - maps URLs to controllers
 │   │   ├── auth.route.js    # Authentication routes (login, register, logout)
 │   │   └── healthcheck.route.js # Health check routes for monitoring
@@ -239,7 +120,10 @@ HTTP status codes in responses:
   - Ensure required fields are provided
   - Reject invalid formats
 
-- **Session Management**: The system prevents users from logging in from multiple places at once.
+- **JWT Authentication**: JSON Web Tokens (JWT) are used to securely identify users after login. They:
+  - Contain user information and a signature
+  - Are sent in the Authorization header for protected routes
+  - Allow stateless authentication (no session storage needed)
 
 - **Environment Variables**: Sensitive information like database credentials are kept in .env files that aren't committed to repositories.
 
