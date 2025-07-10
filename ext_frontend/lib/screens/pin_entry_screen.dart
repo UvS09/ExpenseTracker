@@ -17,13 +17,13 @@ class _PinEntryScreenState extends State<PinEntryScreen> {
 
   void confirmTransaction() {
     if (pinCtrl.text.trim() == '1234') {
-      // 1. Deduct balance
+      
       mockBalance -= widget.amount;
 
-      // 2. Add transaction to mock list
+  
       mockTransactions.add(
         Expense(
-          id: DateTime.now().millisecondsSinceEpoch.toString(), // simple unique ID
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
           userId: 'u1',
           amount: widget.amount,
           description: 'Sent to ${widget.receiver}',
@@ -32,7 +32,7 @@ class _PinEntryScreenState extends State<PinEntryScreen> {
         ),
       );
 
-      // 3. Return success to SendMoneyScreen
+      
       Navigator.pop(context, true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
