@@ -36,7 +36,6 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       if (!mounted) return;
 
       if (success) {
-        // Navigate back to home by replacing current route with root nav
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => const RootNavigation()),
           (route) => false,
