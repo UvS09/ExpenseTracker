@@ -20,7 +20,8 @@ dotenv.config();                              // Initialize environment variable
 const connectDB = require('./src/db/connectDB'); // Import database connection function
 const { HealthCheckRoute } = require('./src/routes/healthcheck.route'); // Import health check routes
 const { AuthRouter } = require('./src/routes/auth.route'); // Import authentication routes
-const PORT = process.env.PORT || 3000;        // Get the port from environment variables or use 3000 as default
+const expenseRoutes = require('./src/routes/expense.route');
+const PORT = process.env.PORT || 8080;        // Get the port from environment variables or use 3000 as default
 
 /**
  * Express Middleware Setup
@@ -40,6 +41,8 @@ app.use(express.static('public'));            // Serve static files from the 'pu
  */
 app.use('/api', HealthCheckRoute);            // Any request to '/api' will be handled by HealthCheckRoute
 app.use('/api/user', AuthRouter);             // Any request to '/api/user' will be handled by AuthRouter
+app.use('/api/expense', expenseRoutes); 
+
 
 /**
  * Server Initialization and Database Connection

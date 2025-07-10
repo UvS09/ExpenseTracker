@@ -14,7 +14,7 @@ dotenv.config();
 const connectDB = async () => {
     try{
         // Connect using environment variables for security
-        const connection = await mongoose.connect(process.env.MONGODB_URI);
+        const connection = await mongoose.connect(process.env.MONGO_URI);
         // console.log(`MongoDB connected: ${connection.connection.host}`);
     } catch (error) {
         // Critical error handling - terminate process on connection failure
